@@ -4,8 +4,11 @@
     @for (recipe of recipes; track recipe) {
       <li
         [ngClass]="{'element-selected': selectedRecipeTitle === recipe.title}">
-        <app-recipe-list-element [recipe]="recipe"
-        (recipeSelected)="onRecipeClick($event)"></app-recipe-list-element>
+        <app-recipe-list-element 
+          [recipe]="recipe"
+          (recipeSelected)="onRecipeClick($event)"
+          (recipeRemove)="onDeleteRecipe($event)">
+        </app-recipe-list-element>
       </li>
     }
   </ul>

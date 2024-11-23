@@ -12,9 +12,16 @@ import { RecipeModel } from '../../core/recipe/model';
 export class RecipeListElementComponent {
   @Input() recipe: RecipeModel | undefined = undefined;
   @Output() recipeSelected = new EventEmitter<RecipeModel & { selectedRecipeTitle: string }>();
+  @Output() recipeRemove = new EventEmitter<number>();
 
   onRecipeClick(recipe: RecipeModel) {
     const toEmit = { ...recipe, selectedRecipeTitle: recipe.title };
     this.recipeSelected.emit(toEmit);
+  }
+
+  onDeleteRecipe(id: number|undefined) {
+    if (id) {
+      this.recipeRemove.emit(id);
+    }
   }
 }

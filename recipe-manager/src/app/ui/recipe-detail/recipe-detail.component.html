@@ -7,8 +7,12 @@
 
   @if (selectedRecipe) {
     <div class="container--selected">
-      <h2>{{ selectedRecipe.title }}</h2>
-      <p>{{ selectedRecipe.description }}</p>
+      <h2>id: {{ selectedRecipe.recipeModel.id }}</h2>
+      <h2>title: {{ selectedRecipe.recipeModel.title }}</h2>
+      <h2>description: {{ selectedRecipe.recipeModel.description }}</h2>
+      <h2>difficulty: {{ selectedRecipe.recipeModel.difficulty }}</h2>
+      <h2>ingredients: {{ selectedRecipe.recipeModel.ingredients }}</h2>
+      <h2>preparation time: {{ selectedRecipe.recipeModel.preparationTime }}</h2>
     </div>
   }
 </section>
