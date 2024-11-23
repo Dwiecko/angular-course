@@ -1,12 +1,10 @@
-
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-recipe-list',
-  standalone: true,
-  imports: [],
   templateUrl: './recipe-list.component.html',
-  styleUrl: './recipe-list.component.scss'
+  standalone: true,
+  styleUrls: ['./recipe-list.component.scss']
 })
 export class RecipeListComponent {
   recipes = [
@@ -14,4 +12,13 @@ export class RecipeListComponent {
     { title: 'Pancakes', description: 'Puszyste naleśniki z miodem.' },
     { title: 'Tacos', description: 'Meksykańskie tacos z wołowiną i salsą.' }
   ];
+
+  // ####################  krok 6
+  @Output() recipeSelected = new EventEmitter<{ title: string, description: string }>();
+
+  onRecipeClick(recipe: { title: string, description: string }) {
+    this.recipeSelected.emit(recipe);
+  }
+
+  // ####################
 }

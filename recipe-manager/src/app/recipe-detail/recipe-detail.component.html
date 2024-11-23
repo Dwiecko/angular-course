@@ -1,1 +1,14 @@
-<p>recipe-detail works!</p>
+<section class="container">
+    @if (!selectedRecipe) {
+    <div>
+        <p>Wybierz przepis z listy, aby zobaczyć szczegóły.</p>
+    </div>
+    }
+
+    @if (selectedRecipe) {
+    <div class="container--selected">
+        <h2>{{ selectedRecipe.title }}</h2>
+        <p>{{ selectedRecipe.description }}</p>
+    </div>
+    }
+</section>
