@@ -1,1 +1,9 @@
-<p>recipe-list works!</p>
+<h2>Lista Przepisów</h2>
+<ul>
+ @for (recipe of recipes; track recipe) {
+ <li>
+ <h3>{{ recipe.title }}</h3>
+ <p>{{ recipe.description }}</p>
+ </li>
+ }
+</ul>
