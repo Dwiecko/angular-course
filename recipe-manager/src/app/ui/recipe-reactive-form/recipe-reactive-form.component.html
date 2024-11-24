@@ -1,0 +1,68 @@
+<p>recipe-reactive-form works!</p>
+
+@if (showForm) {
+    <div>
+        <h2>{{ isEditMode ? 'Edytuj przepis' : 'Dodaj nowy przepis' }}</h2>
+    
+        <form [formGroup]="recipeFormGroup" (ngSubmit)="onSubmit()" novalidate>
+            <!-- Tytuł -->
+            <div>
+                <label for="title">Tytuł przepisu:</label>
+                <input type="text" formControlName="title" />
+                @if (recipeFormGroup.get('title')?.invalid &&
+                recipeFormGroup.get('title')?.touched) {
+                @if (recipeFormGroup.get('title')?.errors?.required) {
+                <small>Tytuł jest wymagany</small>
+                }
+                @if (recipeFormGroup.get('title')?.errors?.minlength) {
+                <small>Tytuł musi mieć co najmniej 3 znaki</small>
+                }
+                }
+            </div>
+    
+            <!-- Składniki -->
+            <div>
+                <label for="ingredients">Składniki (minimum 2):</label>
+                <input type="text" formControlName="ingredients" />
+                @if (recipeFormGroup.get('ingredients')?.invalid &&
+                recipeFormGroup.get('ingredients')?.touched) {
+                @if (recipeFormGroup.get('ingredients')?.errors?.required) {
+                <small>Składniki są wymagane</small>
+                }
+                }
+            </div>
+
+            <!-- Trudność wykonania -->
+            <div>
+                <label for="difficulty">Trudność wykonania:</label>
+                <select required formControlName="difficulty">
+                    <option value="easy">easy</option>
+                    <option value="medium">medium</option>
+                    <option value="hard">hard</option>
+                </select>
+                @if (recipeFormGroup.get('difficulty')?.invalid &&
+                recipeFormGroup.get('difficulty')?.touched) {
+                @if (recipeFormGroup.get('difficulty')?.errors?.required) {
+                <small>Trudność wymagania jest wymagana</small>
+                }
+                }
+            </div>
+
+            <!-- Czas przygotowania -->
+            <div>
+                <label for="preparationTime">Czas przygotowania:</label>
+                <input type="text" formControlName="preparationTime" />
+                @if (recipeFormGroup.get('preparationTime')?.invalid &&
+                recipeFormGroup.get('preparationTime')?.touched) {
+                @if (recipeFormGroup.get('preparationTime')?.errors?.required) {
+                <small>Czas przygotowania jest wymagany</small>
+                }
+                }
+            </div>
+    
+            <button type="submit" [disabled]="recipeFormGroup.invalid">
+                {{ isEditMode ? 'Zapisz zmiany' : 'Dodaj przepis' }}
+            </button>
+        </form>
+    </div>
+    }

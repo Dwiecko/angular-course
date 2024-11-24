@@ -43,4 +43,15 @@ export class RecipeService {
   deleteRecipe(id: number): void {
     this.recipes = this.recipes.filter(r => r.id !== id);
   }
+
+  editRecipe(newRecipe: RecipeModel){
+    let indexRecipeToEdit = this.recipes.findIndex(r => r.id == newRecipe.id);
+    if (indexRecipeToEdit > -1) {
+      this.recipes[indexRecipeToEdit] = newRecipe;
+    }
+  }
+
+  addRecipe(newRecipe: RecipeModel ){
+    this.recipes.push(newRecipe);
+  }
 }
