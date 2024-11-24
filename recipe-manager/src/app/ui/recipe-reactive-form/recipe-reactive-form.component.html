@@ -19,6 +19,21 @@
                 }
                 }
             </div>
+
+            <!-- Opis -->
+            <div>
+                <label for="description">Opis:</label>
+                <input type="text" formControlName="description" />
+                @if (recipeFormGroup.get('description')?.invalid &&
+                recipeFormGroup.get('description')?.touched) {
+                @if (recipeFormGroup.get('description')?.errors?.required) {
+                <small>Tytuł jest wymagany</small>
+                }
+                @if (recipeFormGroup.get('description')?.errors?.minlength) {
+                <small>Tytuł musi mieć co najmniej 3 znaki</small>
+                }
+                }
+            </div>
     
             <!-- Składniki -->
             <div>
