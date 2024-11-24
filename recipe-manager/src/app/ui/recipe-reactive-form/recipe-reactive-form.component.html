@@ -23,7 +23,7 @@
             <!-- Opis -->
             <div>
                 <label for="description">Opis:</label>
-                <input type="text" formControlName="description" />
+                <textarea formControlName="description" ngModel></textarea>
                 @if (recipeFormGroup.get('description')?.invalid &&
                 recipeFormGroup.get('description')?.touched) {
                 @if (recipeFormGroup.get('description')?.errors?.required) {
