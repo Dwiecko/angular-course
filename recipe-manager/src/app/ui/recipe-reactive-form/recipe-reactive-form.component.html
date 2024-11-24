@@ -27,10 +27,10 @@
                 @if (recipeFormGroup.get('description')?.invalid &&
                 recipeFormGroup.get('description')?.touched) {
                 @if (recipeFormGroup.get('description')?.errors?.required) {
-                <small>Tytuł jest wymagany</small>
+                <small>Opis jest wymagany</small>
                 }
                 @if (recipeFormGroup.get('description')?.errors?.minlength) {
-                <small>Tytuł musi mieć co najmniej 3 znaki</small>
+                <small>Opis musi mieć co najmniej 3 znaki</small>
                 }
                 }
             </div>
