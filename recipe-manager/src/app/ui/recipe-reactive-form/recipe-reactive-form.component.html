@@ -1,83 +1,99 @@
-<p>recipe-reactive-form works!</p>
-
 @if (showForm) {
     <div>
         <h2>{{ isEditMode ? 'Edytuj przepis' : 'Dodaj nowy przepis' }}</h2>
     
-        <form [formGroup]="recipeFormGroup" (ngSubmit)="onSubmit()" novalidate>
+        <form [formGroup]="recipeFormGroup" (ngSubmit)="onSubmit()"
+            class="reactive-form" novalidate>
             <!-- Tytuł -->
             <div>
-                <label for="title">Tytuł przepisu:</label>
-                <input type="text" formControlName="title" />
-                @if (recipeFormGroup.get('title')?.invalid &&
-                recipeFormGroup.get('title')?.touched) {
-                @if (recipeFormGroup.get('title')?.errors?.required) {
-                <small>Tytuł jest wymagany</small>
-                }
-                @if (recipeFormGroup.get('title')?.errors?.minlength) {
-                <small>Tytuł musi mieć co najmniej 3 znaki</small>
-                }
-                }
+                <mat-form-field class="form-control-full-width">
+                    <mat-label>Tytuł przepisu</mat-label>
+                    <input matInput type="text" formControlName="title" />
+                    @if (recipeFormGroup.get('title')?.hasError('required')) {
+                    <mat-error>
+                        Tytuł jest wymagany
+                    </mat-error>
+                    }
+                    @if (recipeFormGroup.get('title')?.hasError('minlength')) {
+                    <mat-error>
+                        Tytuł musi mieć co najmniej 3 znaki
+                    </mat-error>
+                    }
+                </mat-form-field>
             </div>
-
+    
             <!-- Opis -->
             <div>
-                <label for="description">Opis:</label>
-                <textarea formControlName="description" ngModel></textarea>
-                @if (recipeFormGroup.get('description')?.invalid &&
-                recipeFormGroup.get('description')?.touched) {
-                @if (recipeFormGroup.get('description')?.errors?.required) {
-                <small>Opis jest wymagany</small>
-                }
-                @if (recipeFormGroup.get('description')?.errors?.minlength) {
-                <small>Opis musi mieć co najmniej 3 znaki</small>
-                }
-                }
+                <mat-form-field class="form-control-full-width">
+                    <mat-label>Opis: </mat-label>
+                    <textarea matInput
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="5" type="text"
+                        formControlName="description"></textarea>
+                    @if (recipeFormGroup.get('description')?.errors?.required) {
+                    <mat-error>Składniki
+                        są wymagane
+                    </mat-error>
+                    }
+                </mat-form-field>
             </div>
     
             <!-- Składniki -->
             <div>
-                <label for="ingredients">Składniki (minimum 2):</label>
-                <input type="text" formControlName="ingredients" />
-                @if (recipeFormGroup.get('ingredients')?.invalid &&
-                recipeFormGroup.get('ingredients')?.touched) {
-                @if (recipeFormGroup.get('ingredients')?.errors?.required) {
-                <small>Składniki są wymagane</small>
-                }
-                }
-            </div>
-
-            <!-- Trudność wykonania -->
-            <div>
-                <label for="difficulty">Trudność wykonania:</label>
-                <select required formControlName="difficulty">
-                    <option value="easy">easy</option>
-                    <option value="medium">medium</option>
-                    <option value="hard">hard</option>
-                </select>
-                @if (recipeFormGroup.get('difficulty')?.invalid &&
-                recipeFormGroup.get('difficulty')?.touched) {
-                @if (recipeFormGroup.get('difficulty')?.errors?.required) {
-                <small>Trudność wymagania jest wymagana</small>
-                }
-                }
-            </div>
-
-            <!-- Czas przygotowania -->
-            <div>
-                <label for="preparationTime">Czas przygotowania:</label>
-                <input type="text" formControlName="preparationTime" />
-                @if (recipeFormGroup.get('preparationTime')?.invalid &&
-                recipeFormGroup.get('preparationTime')?.touched) {
-                @if (recipeFormGroup.get('preparationTime')?.errors?.required) {
-                <small>Czas przygotowania jest wymagany</small>
-                }
-                }
+                <mat-form-field class="form-control-full-width">
+                        <mat-label>Składniki (minimum 2):</mat-label>
+                        <mat-select [formControl]="ingredientsForm" multiple>
+                          @for (ingredient of ingredientsList; track ingredient) {
+                            <mat-option [value]="ingredient">{{ingredient}}</mat-option>
+                          }
+                        </mat-select>
+                      
+                    <!-- <textarea matInput
+                        cdkTextareaAutosize
+                        #autosize="cdkTextareaAutosize"
+                        cdkAutosizeMinRows="1"
+                        cdkAutosizeMaxRows="5" type="text"
+                        formControlName="ingredients"></textarea> -->
+                    @if (recipeFormGroup.get('ingredients')?.errors?.required) {
+                    <mat-error>
+                        Składniki są wymagane
+                    </mat-error>
+                    }
+                </mat-form-field>
             </div>
     
-            <button type="submit" [disabled]="recipeFormGroup.invalid">
+            <!-- Poziom trudności -->
+            <div>
+                <mat-form-field class="form-control-full-width">
+                    <mat-label>Poziom trudności wykonania :</mat-label>
+                    <select matNativeControl required formControlName="difficulty">
+                        <option value="hard">hard</option>
+                        <option value="medium">medium</option>
+                        <option value="easy">easy</option>
+                    </select>
+                </mat-form-field>
+            </div>
+    
+            <!-- Czas przygotowania -->
+            <div>
+                <mat-form-field class="form-control-full-width">
+                    <mat-label>Czas wykonania (w minutach):</mat-label>
+                    <input matInput type="text"
+                        formControlName="preparationTime" />
+                    @if (recipeFormGroup.get('preparationTime')?.errors?.required) {
+                    <mat-error>
+                        Czas wykonania jest wymagany
+                    </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+    
+            <button mat-raised-button color="primary" type="submit"
+                [disabled]="recipeFormGroup.invalid">
                 {{ isEditMode ? 'Zapisz zmiany' : 'Dodaj przepis' }}
             </button>
         </form>
     </div>
-    }
+}

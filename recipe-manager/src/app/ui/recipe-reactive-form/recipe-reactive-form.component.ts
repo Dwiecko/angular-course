@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import {FormControl, FormsModule} from '@angular/forms';
 import {
   FormBuilder,
   FormGroup,
@@ -8,17 +9,23 @@ import {
 } from '@angular/forms';
 import { RecipeModel } from '../../core/recipe/model';
 import { RecipeService } from '../../core/recipe/service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-recipe-reactive-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule],
   templateUrl: './recipe-reactive-form.component.html',
   styleUrl: './recipe-reactive-form.component.scss',
 })
 export class RecipeReactiveFormComponent implements OnInit {
   @Input() isEditMode = false;
   @Input() currentRecipe: RecipeModel | null = null;
+  ingredientsForm = new FormControl('');
+  ingredientsList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
 
   showForm = false;
   recipeFormGroup!: FormGroup;
@@ -31,7 +38,7 @@ export class RecipeReactiveFormComponent implements OnInit {
     this.recipeFormGroup = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
-      ingredients: ['', Validators.required],
+      ingredients: [this.ingredientsList, Validators.required],
       preparationTime: ['', Validators.required],
       difficulty: ['easy', Validators.required]
     });
@@ -53,7 +60,7 @@ export class RecipeReactiveFormComponent implements OnInit {
       const newRecipe: RecipeModel = {
         id: this.isEditMode ? this.currentRecipe!.id : Date.now(),
         ...this.recipeFormGroup.value, // ta linijka tworzy 'shadow copy' obecnych wartości formularza i je tu wrzuca, dzięki temu nie musimy ich deklarować ręcznie jeżeli się nie zmianiają, nie są mapowane, parsowane itp.
-        ingredients: this.recipeFormGroup.value.ingredients.split(','), // metoda pomocnicza split(',') znajduje w ciągu znaków ',' i na tej podstawie rozdziela ciąg na części
+        ingredients: this.recipeFormGroup.value.ingredients, // metoda pomocnicza split(',') znajduje w ciągu znaków ',' i na tej podstawie rozdziela ciąg na części
         preparationTime: this.recipeFormGroup.value.preparationTime,
         difficulty: this.recipeFormGroup.value.difficulty,
         description: this.recipeFormGroup.value.description

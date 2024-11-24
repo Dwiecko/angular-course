@@ -5,6 +5,7 @@
       <p>{{ recipe.description }}</p>
       <p>Poziom trudności: {{ recipe.difficulty }}</p>
       <p>Czas przygotowania: {{ recipe.preparationTime }} minut</p>
+      <p>Składniki: {{ recipe.ingredients }}</p>
     </div>
     <button (click)="onDeleteRecipe(recipe)">Usuń</button>
   </article>
